@@ -7,15 +7,14 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CommitteeController;
 
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::middleware(['auth'])->group(function () {
-
-
-    
-
     Route::get('/admin', [DashboardController::class, 'index'])
     ->name('dashboard');
 

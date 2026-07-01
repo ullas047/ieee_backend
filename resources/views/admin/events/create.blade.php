@@ -55,12 +55,13 @@
 
         {{-- Date Time --}}
         <div class="grid grid-cols-2 gap-4">
-
-            <input type="datetime-local"
+            <p class="col-span-2 font-medium text-gray-700">
+                Event Date & Time  </p>
+            <input type="datetime-local" 
                    name="start_datetime"
                    class="border p-2 rounded">
 
-            <input type="datetime-local"
+            <input type="datetime-local" 
                    name="end_datetime"
                    class="border p-2 rounded">
 

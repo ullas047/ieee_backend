@@ -3,23 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+
 class DashboardController extends Controller
 {
     public function index()
     {
         $totalEvents = Event::count();
 
-        $upcomingEvents = Event::where(
-            'start_datetime',
-            '>',
-            now()
-        )->count();
+        $upcomingEvents = Event::where('status', 'upcomming')->count();
 
-        $completedEvents = Event::where(
-            'end_datetime',
-            '<',
-            now()
-        )->count();
+        $completedEvents = Event::where('status', 'completed')->count();
 
         $latestEvents = Event::latest()->take(5)->get();
 
