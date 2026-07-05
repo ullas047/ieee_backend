@@ -28,19 +28,53 @@
         </div>
     @endif
 
-    <form method="GET" class="mb-4">
-    <select name="year"
-            onchange="this.form.submit()"
-            class="rounded-lg border-gray-300">
+<form method="GET" class="mb-6 flex flex-wrap gap-4 items-center">
 
+    {{-- Year --}}
+    <select
+        name="year"
+        onchange="this.form.submit()"
+        class="rounded-lg border-gray-300"
+    >
         @foreach($years as $year)
-            <option value="{{ $year }}"
-                {{ request('year', date('Y')) == $year ? 'selected' : '' }}>
+            <option
+                value="{{ $year }}"
+                {{ request('year', date('Y')) == $year ? 'selected' : '' }}
+            >
                 {{ $year }}
+            </option>
+        @endforeach
+    </select>
+
+    {{-- Committee --}}
+    <select
+        name="committee_type"
+        onchange="this.form.submit()"
+        class="rounded-lg border-gray-300"
+    >
+
+        <option value="all">All Committees</option>
+
+        @foreach($committeeTypes as $type)
+            <option
+                value="{{ $type }}"
+                {{ request('committee_type') == $type ? 'selected' : '' }}
+            >
+                {{ ucwords(str_replace('_',' ', $type)) }}
             </option>
         @endforeach
 
     </select>
+
+    {{-- Reset --}}
+    <a
+
+        href="{{ route('committees.index') }}"
+        class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+    >
+        Reset
+    </a>
+
 </form>
 
 

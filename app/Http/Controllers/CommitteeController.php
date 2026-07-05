@@ -11,26 +11,45 @@ class CommitteeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    
+
     public function index(Request $request)
-{
-    $years = Committee::select('year')
-        ->distinct()
-        ->orderByDesc('year')
-        ->pluck('year');
+    {
+        $selectedYear = $request->year ?? date('Y');
+        $selectedCommittee = $request->committee_type;
 
-    $selectedYear = $request->year ?? now()->year;
+        $query = Committee::query();
 
-    $committees = Committee::where('year', $selectedYear)
-        ->latest()
-        ->paginate(10);
+        // Year filter
+        if ($selectedYear) {
+            $query->where('year', $selectedYear);
+        }
 
-    return view('admin.committees.index', compact(
-        'committees',
-        'years',
-        'selectedYear'
-    ));
-}
+        // Committee filter
+        if ($selectedCommittee && $selectedCommittee != 'all') {
+            $query->where('committee_type', $selectedCommittee);
+        }
+
+        $committees = $query
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $years = Committee::select('year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
+
+        $committeeTypes = Committee::select('committee_type')
+            ->distinct()
+            ->orderBy('committee_type')
+            ->pluck('committee_type');
+
+        return view('admin.committees.index', compact(
+            'committees',
+            'years',
+            'committeeTypes'
+        ));
+    }
 
     /**
      * Show the form for creating a new resource.
