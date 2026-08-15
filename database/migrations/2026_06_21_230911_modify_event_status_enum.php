@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,10 +14,10 @@ return new class extends Migration
         DB::statement("
             ALTER TABLE events
             MODIFY status ENUM(
-                'upcomming',
+                'upcoming',
                 'completed'
 
-            ) DEFAULT 'upcomming'
+            ) DEFAULT 'upcoming'
         ");
     }
 
@@ -26,9 +26,9 @@ return new class extends Migration
         DB::statement("
             ALTER TABLE events
             MODIFY status ENUM(
-                'upcomming',
+                'upcoming',
                 'completed',
-            ) DEFAULT 'upcomming'
+            ) DEFAULT 'upcoming'
         ");
     }
 };

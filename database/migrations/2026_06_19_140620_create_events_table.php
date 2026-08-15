@@ -34,9 +34,9 @@ return new class extends Migration {
             $table->string('banner_image')->nullable();
 
             $table->enum('status', [
-                'upcomming',
+                'upcoming',
                 'completed',
-            ])->default('upcomming');
+            ])->default('upcoming');
             $table->json('tags')->nullable();
 
 

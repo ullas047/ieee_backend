@@ -14,6 +14,27 @@
 
             @csrf
             @method('PUT')
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                    <input type="text" id="title" name="title" value="{{ old('title', $event->title) }}"
+                        class="border p-2 rounded w-full">
+                </div>
+
+                <div>
+                    <label for="subtitle" class="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+                    <input type="text" id="subtitle" name="subtitle" value="{{ old('subtitle', $event->subtitle) }}"
+                        class="border p-2 rounded w-full">
+                </div>
+            </div>
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea id="description" name="description"
+                    class="w-full border p-2 rounded">{{ old('description', $event->description) }}</textarea>
+            </div>
+
             <div>
                 <label class="block font-semibold mb-1">Banner Image</label>
 
@@ -27,47 +48,60 @@
                 <input type="file" name="banner_image" id="banner_image" class="border p-2 w-full" accept="image/*">
 
                 {{-- Preview new image --}}
-
-                {{-- Preview --}}
                 <img id="bannerPreview" src="" class="hidden mt-3 w-full h-48 object-cover rounded border"
                     alt="Preview Image">
             </div>
 
             {{-- BASIC INFO --}}
-            <div class="grid grid-cols-2 gap-4">
-                <input type="text" name="title" value="{{ old('title', $event->title) }}" class="border p-2 rounded">
-
-                <input type="text" name="subtitle" value="{{ old('subtitle', $event->subtitle) }}"
-                    class="border p-2 rounded">
-            </div>
-
-            <textarea name="description"
-                class="w-full border p-2 rounded">{{ old('description', $event->description) }}</textarea>
 
             <div class="grid grid-cols-2 gap-4">
-                <input type="datetime-local" name="start_datetime"
-                    value="{{ old('start_datetime', \Carbon\Carbon::parse($event->start_datetime)->format('Y-m-d\TH:i')) }}"
-                    class="border p-2 rounded">
+                <div>
+                    <label for="start_datetime" class="block text-sm font-medium text-gray-700 mb-1">Start Date & Time</label>
+                    <input type="datetime-local" id="start_datetime" name="start_datetime"
+                        value="{{ old('start_datetime', \Carbon\Carbon::parse($event->start_datetime)->format('Y-m-d\TH:i')) }}"
+                        class="border p-2 rounded w-full">
+                </div>
 
-                <input type="datetime-local" name="end_datetime"
-                    value="{{ old('end_datetime', \Carbon\Carbon::parse($event->end_datetime)->format('Y-m-d\TH:i')) }}"
-                    class="border p-2 rounded">
+                <div>
+                    <label for="end_datetime" class="block text-sm font-medium text-gray-700 mb-1">End Date & Time</label>
+                    <input type="datetime-local" id="end_datetime" name="end_datetime"
+                        value="{{ old('end_datetime', \Carbon\Carbon::parse($event->end_datetime)->format('Y-m-d\TH:i')) }}"
+                        class="border p-2 rounded w-full">
+                </div>
             </div>
-            <input type="text" name="prerequisites" value="{{ old('prerequisites', $event->prerequisites) }}"
-                class="w-full border p-2 rounded" placeholder="Prerequisites">
 
-            <input type="text" name="venue" value="{{ old('venue', $event->venue) }}" class="w-full border p-2 rounded">
+            <div>
+                <label for="prerequisites" class="block text-sm font-medium text-gray-700 mb-1">Prerequisites</label>
+                <input type="text" id="prerequisites" name="prerequisites"
+                    value="{{ old('prerequisites', $event->prerequisites) }}" class="w-full border p-2 rounded"
+                    placeholder="Prerequisites">
+            </div>
 
-            <input type="text" name="registration_fee" value="{{ old('registration_fee', $event->registration_fee) }}"
-                class="w-full border p-2 rounded">
+            <div>
+                <label for="venue" class="block text-sm font-medium text-gray-700 mb-1">Venue</label>
+                <input type="text" id="venue" name="venue" value="{{ old('venue', $event->venue) }}"
+                    class="w-full border p-2 rounded">
+            </div>
 
-            <input type="text" name="registration_link" value="{{ old('registration_link', $event->registration_link) }}"
-                class="w-full border p-2 rounded">
+            <div>
+                <label for="registration_fee" class="block text-sm font-medium text-gray-700 mb-1">Registration Fee</label>
+                <input type="text" id="registration_fee" name="registration_fee"
+                    value="{{ old('registration_fee', $event->registration_fee) }}" class="w-full border p-2 rounded">
+            </div>
 
-            <select name="status" class="w-full border p-2 rounded">
-                <option value="upcomming" @selected($event->status == 'upcomming')>upcomming</option>
-                <option value="completed" @selected($event->status == 'completed')>completed</option>
-            </select>
+            <div>
+                <label for="registration_link" class="block text-sm font-medium text-gray-700 mb-1">Registration Link</label>
+                <input type="text" id="registration_link" name="registration_link"
+                    value="{{ old('registration_link', $event->registration_link) }}" class="w-full border p-2 rounded">
+            </div>
+
+            <div>
+                <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select id="status" name="status" class="w-full border p-2 rounded">
+                    <option value="upcoming" @selected($event->status == 'upcomming')>upcomming</option>
+                    <option value="completed" @selected($event->status == 'completed')>completed</option>
+                </select>
+            </div>
 
             <h2 class="text-lg font-bold mb-2">Speakers</h2>
 
@@ -75,11 +109,17 @@
                 @foreach($event->speakers as $i => $speaker)
                     <div class="border p-3 my-2 space-y-2">
 
-                        <input type="text" name="speakers[{{ $i }}][name]" value="{{ $speaker->name }}"
-                            class="w-full border p-2">
+                        <div>
+                            <label for="speaker-name-{{ $i }}" class="block text-sm font-medium text-gray-700 mb-1">Speaker Name</label>
+                            <input type="text" id="speaker-name-{{ $i }}" name="speakers[{{ $i }}][name]"
+                                value="{{ $speaker->name }}" class="w-full border p-2">
+                        </div>
 
-                        <input type="text" name="speakers[{{ $i }}][title]" value="{{ $speaker->title }}"
-                            class="w-full border p-2">
+                        <div>
+                            <label for="speaker-title-{{ $i }}" class="block text-sm font-medium text-gray-700 mb-1">Speaker Title</label>
+                            <input type="text" id="speaker-title-{{ $i }}" name="speakers[{{ $i }}][title]"
+                                value="{{ $speaker->title }}" class="w-full border p-2">
+                        </div>
 
                         {{-- CURRENT IMAGE --}}
                         @if($speaker->image)
@@ -87,14 +127,17 @@
                         @endif
 
                         {{-- NEW IMAGE --}}
-                        <input type="file" name="speakers[{{ $i }}][image]" class="w-full border p-2 speaker-image-input"
-                            accept="image/*" onchange="previewSpeakerImage(event, {{ $i }})">
+                        <div>
+                            <label for="speaker-image-{{ $i }}" class="block text-sm font-medium text-gray-700 mb-1">Speaker Image</label>
+                            <input type="file" id="speaker-image-{{ $i }}" name="speakers[{{ $i }}][image]"
+                                class="w-full border p-2 speaker-image-input" accept="image/*"
+                                onchange="previewSpeakerImage(event, {{ $i }})">
+                        </div>
 
                         <img id="speaker-preview-{{ $i }}"
                             src="{{ $speaker->image ? asset('storage/' . $speaker->image) : '' }}"
                             class="w-16 h-16 rounded-full object-cover mt-2 {{ $speaker->image ? '' : 'hidden' }}"
                             alt="Speaker Preview">
-
 
                     </div>
                 @endforeach
@@ -111,13 +154,23 @@
 
                     @foreach($event->agendas as $i => $agenda)
                         <div class="border p-3 my-2 grid grid-cols-3 gap-2">
-                            <input type="time" name="agenda[{{ $i }}][start_time]" value="{{ $agenda->start_time }}"
-                                class="border p-2">
+                            <div>
+                                <label for="agenda-start-{{ $i }}" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+                                <input type="time" id="agenda-start-{{ $i }}" name="agenda[{{ $i }}][start_time]"
+                                    value="{{ $agenda->start_time }}" class="border p-2 w-full">
+                            </div>
 
-                            <input type="time" name="agenda[{{ $i }}][end_time]" value="{{ $agenda->end_time }}"
-                                class="border p-2">
+                            <div>
+                                <label for="agenda-end-{{ $i }}" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
+                                <input type="time" id="agenda-end-{{ $i }}" name="agenda[{{ $i }}][end_time]"
+                                    value="{{ $agenda->end_time }}" class="border p-2 w-full">
+                            </div>
 
-                            <input type="text" name="agenda[{{ $i }}][topic]" value="{{ $agenda->topic }}" class="border p-2">
+                            <div>
+                                <label for="agenda-topic-{{ $i }}" class="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                                <input type="text" id="agenda-topic-{{ $i }}" name="agenda[{{ $i }}][topic]"
+                                    value="{{ $agenda->topic }}" class="border p-2 w-full">
+                            </div>
                         </div>
                     @endforeach
 
@@ -136,8 +189,9 @@
 
                     @foreach($event->highlights as $i => $highlight)
                         <div class="border p-3 my-2">
-                            <input type="text" name="highlights[{{ $i }}][text]" value="{{ $highlight->text }}"
-                                class="w-full border p-2">
+                            <label for="highlight-{{ $i }}" class="block text-sm font-medium text-gray-700 mb-1">Highlight</label>
+                            <input type="text" id="highlight-{{ $i }}" name="highlights[{{ $i }}][text]"
+                                value="{{ $highlight->text }}" class="w-full border p-2">
                         </div>
                     @endforeach
 
@@ -145,9 +199,11 @@
                 <button type="button" onclick="addHighlight()" class="bg-purple-500 text-white px-3 py-1 rounded mt-2">
                     + Add Highlight
                 </button>
+
                 <div>
                     <h2 class="text-lg font-bold mb-2">Tags</h2>
 
+                    <label for="tag-input" class="block text-sm font-medium text-gray-700 mb-1">Add Tag</label>
                     <input type="text" id="tag-input" placeholder="Type tag and press Enter"
                         class="w-full border p-2 rounded">
 
@@ -172,12 +228,21 @@
 
         function addSpeaker() {
             document.getElementById('speakers-wrapper').insertAdjacentHTML('beforeend', `
-                                        <div class="border p-3 my-2 space-y-2">
-                                            <input type="text" name="speakers[${speakerIndex}][name]" class="w-full border p-2" placeholder="Name">
-                                            <input type="text" name="speakers[${speakerIndex}][title]" class="w-full border p-2" placeholder="Title">
-                                            <input type="file" name="speakers[${speakerIndex}][image]" class="w-full border p-2" placeholder="Image">
-                                        </div>
-                                    `);
+                <div class="border p-3 my-2 space-y-2">
+                    <div>
+                        <label for="speaker-name-${speakerIndex}" class="block text-sm font-medium text-gray-700 mb-1">Speaker Name</label>
+                        <input type="text" id="speaker-name-${speakerIndex}" name="speakers[${speakerIndex}][name]" class="w-full border p-2" placeholder="Name">
+                    </div>
+                    <div>
+                        <label for="speaker-title-${speakerIndex}" class="block text-sm font-medium text-gray-700 mb-1">Speaker Title</label>
+                        <input type="text" id="speaker-title-${speakerIndex}" name="speakers[${speakerIndex}][title]" class="w-full border p-2" placeholder="Title">
+                    </div>
+                    <div>
+                        <label for="speaker-image-${speakerIndex}" class="block text-sm font-medium text-gray-700 mb-1">Speaker Image</label>
+                        <input type="file" id="speaker-image-${speakerIndex}" name="speakers[${speakerIndex}][image]" class="w-full border p-2">
+                    </div>
+                </div>
+            `);
             speakerIndex++;
         }
 
@@ -205,26 +270,36 @@
             }
         }
 
-
         function addAgenda() {
             document.getElementById('agenda-wrapper').insertAdjacentHTML('beforeend', `
-                                        <div class="border p-3 my-2 grid grid-cols-3 gap-2">
-                                            <input type="time" name="agenda[${agendaIndex}][start_time]" class="border p-2">
-                                            <input type="time" name="agenda[${agendaIndex}][end_time]" class="border p-2">
-                                            <input type="text" name="agenda[${agendaIndex}][topic]" class="border p-2" placeholder="Topic">
-                                        </div>
-                                    `);
+                <div class="border p-3 my-2 grid grid-cols-3 gap-2">
+                    <div>
+                        <label for="agenda-start-${agendaIndex}" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+                        <input type="time" id="agenda-start-${agendaIndex}" name="agenda[${agendaIndex}][start_time]" class="border p-2 w-full">
+                    </div>
+                    <div>
+                        <label for="agenda-end-${agendaIndex}" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
+                        <input type="time" id="agenda-end-${agendaIndex}" name="agenda[${agendaIndex}][end_time]" class="border p-2 w-full">
+                    </div>
+                    <div>
+                        <label for="agenda-topic-${agendaIndex}" class="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                        <input type="text" id="agenda-topic-${agendaIndex}" name="agenda[${agendaIndex}][topic]" class="border p-2 w-full" placeholder="Topic">
+                    </div>
+                </div>
+            `);
             agendaIndex++;
         }
 
         function addHighlight() {
             document.getElementById('highlight-wrapper').insertAdjacentHTML('beforeend', `
-                                        <div class="border p-3 my-2">
-                                            <input type="text" name="highlights[${highlightIndex}][text]" class="w-full border p-2" placeholder="Highlight">
-                                        </div>
-                                    `);
+                <div class="border p-3 my-2">
+                    <label for="highlight-${highlightIndex}" class="block text-sm font-medium text-gray-700 mb-1">Highlight</label>
+                    <input type="text" id="highlight-${highlightIndex}" name="highlights[${highlightIndex}][text]" class="w-full border p-2" placeholder="Highlight">
+                </div>
+            `);
             highlightIndex++;
         }
+
         let tags = @json($event->tags ? json_decode($event->tags) : []);
 
         renderTags();
@@ -246,11 +321,11 @@
         function renderTags() {
             document.getElementById('tags-wrapper').innerHTML =
                 tags.map((tag, i) => `
-                                            <span class="bg-gray-200 px-3 py-1 rounded-full flex items-center gap-2">
-                                                ${tag}
-                                                <button type="button" onclick="removeTag(${i})">x</button>
-                                            </span>
-                                        `).join('');
+                    <span class="bg-gray-200 px-3 py-1 rounded-full flex items-center gap-2">
+                        ${tag}
+                        <button type="button" onclick="removeTag(${i})">x</button>
+                    </span>
+                `).join('');
 
             document.getElementById('tags-hidden').value = JSON.stringify(tags);
         }

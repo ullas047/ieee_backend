@@ -49,7 +49,7 @@ class EventController extends Controller
             'end_datetime' => $request->end_datetime,
             'registration_fee' => $request->registration_fee,
             'registration_link' => $request->registration_link,
-            'status' => $request->status ?? 'upcomming',
+            'status' => $request->status ?? 'upcoming',
             'prerequisites' => $request->prerequisites,
             'banner_image' => $request->hasFile('banner_image') ? $request->file('banner_image')->store('events', 'public') : null,
         ]);
