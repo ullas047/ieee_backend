@@ -37,6 +37,7 @@ class EventController extends Controller
             'description' => 'required',
             'start_datetime' => 'required',
             'end_datetime' => 'required',
+            'status' => 'required|in:upcoming,completed',
         ]);
 
         $event = Event::create([
@@ -49,7 +50,7 @@ class EventController extends Controller
             'end_datetime' => $request->end_datetime,
             'registration_fee' => $request->registration_fee,
             'registration_link' => $request->registration_link,
-            'status' => $request->status ?? 'upcoming',
+            'status' => $request->status,
             'prerequisites' => $request->prerequisites,
             'banner_image' => $request->hasFile('banner_image') ? $request->file('banner_image')->store('events', 'public') : null,
         ]);
@@ -148,6 +149,7 @@ class EventController extends Controller
             'description' => 'required',
             'start_datetime' => 'required',
             'end_datetime' => 'required',
+            'status' => 'required|in:upcoming,completed',
         ]);
 
         DB::transaction(function () use ($request, $event) {

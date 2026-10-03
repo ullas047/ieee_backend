@@ -70,15 +70,12 @@ class CommitteeController extends Controller
             'committee_type' => 'required',
             'name' => 'required',
             'club_position' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240',
         ]);
 
         $imagePath = null;
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')
-                ->store('committee', 'public');
-        }
+        $imagePath = $request->file('image')->store('committee', 'public');
 
         Committee::create([
             'year' => $request->year,
@@ -115,43 +112,45 @@ class CommitteeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Committee $committee)
-    {
-        $request->validate([
-            'year' => 'required|digits:4',
-            'committee_type' => 'required',
-            'name' => 'required',
-            'club_position' => 'required',
-        ]);
+   public function update(Request $request, Committee $committee)
+{
+    $request->validate([
+        'year' => 'required|digits:4',
+        'committee_type' => 'required',
+        'name' => 'required',
+        'club_position' => 'required',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+    ]);
 
-        if ($request->hasFile('image')) {
+    if ($request->hasFile('image')) {
 
-            if (
-                $committee->image &&
-                Storage::disk('public')->exists($committee->image)
-            ) {
-
-                Storage::disk('public')->delete($committee->image);
-            }
-
-            $committee->image = $request->file('image')
-                ->store('committee', 'public');
+        // Delete old image
+        if (
+            $committee->image &&
+            Storage::disk('public')->exists($committee->image)
+        ) {
+            Storage::disk('public')->delete($committee->image);
         }
-        $committee->year = $request->year;
 
-        $committee->committee_type = $request->committee_type;
-        $committee->name = $request->name;
-        $committee->club_position = $request->club_position;
-        $committee->varsity_position = $request->varsity_position;
-        $committee->facebook_link = $request->facebook_link;
-        $committee->linkedin_link = $request->linkedin_link;
-
-        $committee->save();
-
-        return redirect()
-            ->route('committees.index')
-            ->with('success', 'Updated successfully');
+        // Store new image
+        $committee->image = $request->file('image')
+            ->store('committee', 'public');
     }
+
+    $committee->year = $request->year;
+    $committee->committee_type = $request->committee_type;
+    $committee->name = $request->name;
+    $committee->club_position = $request->club_position;
+    $committee->varsity_position = $request->varsity_position;
+    $committee->facebook_link = $request->facebook_link;
+    $committee->linkedin_link = $request->linkedin_link;
+
+    $committee->save();
+
+    return redirect()
+        ->route('committees.index')
+        ->with('success', 'Updated successfully');
+}
 
     /**
      * Remove the specified resource from storage.

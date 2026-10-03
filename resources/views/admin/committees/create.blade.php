@@ -146,7 +146,7 @@
                     <img id="preview-image" src="https://via.placeholder.com/250x250?text=Photo"
                         class="w-48 h-48 rounded-lg object-cover border mx-auto mb-5">
 
-                    <input type="file" id="imageInput" name="image" accept="image/*" class="w-full text-sm">
+                    <input type="file" id="imageInput" name="image" accept="image/jpeg,image/png,image/webp" required class="w-full text-sm">
 
                     <button type="submit"
                         class="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition">

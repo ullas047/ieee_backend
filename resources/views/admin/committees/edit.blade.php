@@ -159,6 +159,7 @@
                         <input type="file"
                                name="image"
                                id="imageInput"
+                               accept="image/jpeg,image/png,image/webp"
                                class="block w-full text-sm text-gray-700
                                       file:mr-4 file:py-2 file:px-4
                                       file:rounded-lg

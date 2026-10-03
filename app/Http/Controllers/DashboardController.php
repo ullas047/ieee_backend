@@ -10,7 +10,7 @@ class DashboardController extends Controller
     {
         $totalEvents = Event::count();
 
-        $upcomingEvents = Event::where('status', 'upcomming')->count();
+        $upcomingEvents = Event::where('status', 'upcoming')->count();
 
         $completedEvents = Event::where('status', 'completed')->count();
 

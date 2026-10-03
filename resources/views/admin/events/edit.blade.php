@@ -98,7 +98,7 @@
             <div>
                 <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <select id="status" name="status" class="w-full border p-2 rounded">
-                    <option value="upcoming" @selected($event->status == 'upcomming')>upcomming</option>
+                    <option value="upcoming" @selected($event->status == 'upcoming')>Upcoming</option>
                     <option value="completed" @selected($event->status == 'completed')>completed</option>
                 </select>
             </div>

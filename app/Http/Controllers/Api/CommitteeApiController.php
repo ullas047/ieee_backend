@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommitteeResource;
 use App\Models\Committee;
 
 
@@ -22,13 +23,17 @@ class CommitteeApiController extends Controller
             ->orderBy('committee_type')
             ->get();
 
-        return response()->json($members);
+        return response()->json(
+            $members->map(
+                fn (Committee $member) => (new CommitteeResource($member))->resolve()
+            )
+        );
     }
 
     public function show($id)
     {
         $member = Committee::findOrFail($id);
 
-        return response()->json($member);
+        return response()->json((new CommitteeResource($member))->resolve());
     }
 }
